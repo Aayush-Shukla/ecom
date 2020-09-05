@@ -1,0 +1,19 @@
+body {
+  margin: 0; }
+#type-select{
+  display: unset !important;
+
+}
+#category-select{
+  display: unset !important;
+
+}
+
+
+.image-upload {
+  display: none;
+}
+
+.image-field{
+  cursor: pointer;
+}

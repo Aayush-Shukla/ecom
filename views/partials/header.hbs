@@ -1,0 +1,50 @@
+<!doctype html>
+<html class="grey lighten-2" lang="" style="height: 100%;">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Just Another App</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="/css/style.css">
+
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+
+
+
+    </head>
+    <body >
+
+
+        <nav class="teal lighten-1">
+            <div class="container ">
+                <div class="nav-wrapper">
+                    <a href="/" class="brand-logo"><i class="material-icons large">home</i></a>
+                    <ul id="nav-mobile" class="right hide-on-med-and-down">
+
+                        </form>
+                        {{#if isAuthenticated}}
+                        <li><a href="/search"><i class="material-icons">search</i> </a></li>
+                        <li><a href="/profile">Profile</a></li>
+
+                        <li><a href="/logout">Logout</a></li>
+
+
+                        {{else}}
+
+
+                            <li><a href="/login">Login</a></li>
+                            <li><a href="/register">Register</a></li>
+                        {{/if}}
+
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+
+
