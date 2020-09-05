@@ -14,7 +14,7 @@ Customer
 
 </div>
 
-<div class="container s12 " >
+<div class=" s12 " >
 
 
 
@@ -38,17 +38,20 @@ Customer
 
 
 
-    <ul class="tabs tabs-fixed-width tab-demo z-depth-1">
+    <ul class="tabs z-depth-1">
         <li class="tab"><a class="active" href="#books">BOOKS</a></li>
-        <li class="tab"><a href="#electronics">electronics</a></li>
-        <li class="tab"><a href="#men">men</a></li>
-        <li class="tab"><a href="#women">women</a></li>
-        <li class="tab"><a href="#movies">movies</a></li>
-        <li class="tab"><a href="#software">software</a></li>
-        <li class="tab"><a href="#beauty">beauty</a></li>
-        <li class="tab"><a href="#games">games</a></li>
-        <li class="tab"><a href="#computers">computers</a></li>
+        <li class="tab"><a href="#electronics">Electronics</a></li>
+        <li class="tab"><a href="#men">Men's Fashion</a></li>
+        <li class="tab"><a href="#women">Women's Fashion</a></li>
+        <li class="tab"><a href="#movies">Movies & Television</a></li>
+        <li class="tab"><a href="#software">Software</a></li>
+        <li class="tab"><a href="#beauty">Beauty & Personal Care</a></li>
+        <li class="tab"><a href="#games">Video Games</a></li>
+        <li class="tab"><a href="#computers">Computers</a></li>
     </ul>
+
+    <div class="container">
+
     <div id="books" class="col s12">
 
     <div class="row">
@@ -57,17 +60,22 @@ Customer
 
                 <div class="col s12 m6">
                     <div class="card">
-                        <div class="card-image activator">
-                            <img src="https://materializecss.com/images/sample-1.jpg">
-                            <span class="card-title">{{this.name}}e</span>
+                        <div class="card-image">
+                            <img class="activator" src="https://materializecss.com/images/sample-1.jpg">
+                            <span class="card-title activator">{{this.name}}e</span>
                             <a class="btn-floating halfway-fab waves-effect waves-light red"><i class="material-icons">add_shopping_cart</i></a>
                         </div>
-                        <div class="card-content">
-                            <p>{{this.description}}</p>
+                        <div class="card-content activator">
+                            <ul>
+                                {{#each this.highlight}}
+                                    <li class="a">{{this}}</li>
+                                {{/each}}
+                            </ul>
+
                         </div>
                         <div class="card-reveal">
                             <span class="card-title grey-text text-darken-4">Card Title<i class="material-icons right">close</i></span>
-                            <p>Here is some more information about this product that is only revealed once clicked on.</p>
+                            <p>{{this.description}}</p>
                         </div>
                     </div>
                 </div>
@@ -92,17 +100,22 @@ Customer
 
                 <div class="col s12 m6">
                     <div class="card">
-                        <div class="card-image activator">
-                            <img src="https://materializecss.com/images/sample-1.jpg">
-                            <span class="card-title">{{this.name}}e</span>
+                        <div class="card-image">
+                            <img class="activator" src="https://materializecss.com/images/sample-1.jpg">
+                            <span class="card-title activator">{{this.name}}e</span>
                             <a class="btn-floating halfway-fab waves-effect waves-light red"><i class="material-icons">add_shopping_cart</i></a>
                         </div>
-                        <div class="card-content">
-                            <p>{{this.description}}</p>
+                        <div class="card-content activator">
+                            <ul>
+                                {{#each this.highlight}}
+                                    <li class="a">{{this}}</li>
+                                {{/each}}
+                            </ul>
+
                         </div>
                         <div class="card-reveal">
                             <span class="card-title grey-text text-darken-4">Card Title<i class="material-icons right">close</i></span>
-                            <p>Here is some more information about this product that is only revealed once clicked on.</p>
+                            <p>{{this.description}}</p>
                         </div>
                     </div>
                 </div>
@@ -128,16 +141,21 @@ Customer
                 <div class="col s12 m6">
                     <div class="card">
                         <div class="card-image activator">
-                            <img src="https://materializecss.com/images/sample-1.jpg">
-                            <span class="card-title">{{this.name}}e</span>
+                            <img class="activator" src="https://materializecss.com/images/sample-1.jpg">
+                            <span class="card-title activator">{{this.name}}e</span>
                             <a class="btn-floating halfway-fab waves-effect waves-light red"><i class="material-icons">add_shopping_cart</i></a>
                         </div>
-                        <div class="card-content">
-                            <p>{{this.description}}</p>
+                        <div class="card-content activator">
+                            <ul>
+                                {{#each this.highlight}}
+                                    <li class="a">{{this}}</li>
+                                {{/each}}
+                            </ul>
+
                         </div>
                         <div class="card-reveal">
                             <span class="card-title grey-text text-darken-4">Card Title<i class="material-icons right">close</i></span>
-                            <p>Here is some more information about this product that is only revealed once clicked on.</p>
+                            <p>{{this.description}}</p>
                         </div>
                     </div>
                 </div>
@@ -163,16 +181,21 @@ Customer
                 <div class="col s12 m6">
                     <div class="card">
                         <div class="card-image activator">
-                            <img src="https://materializecss.com/images/sample-1.jpg">
-                            <span class="card-title">{{this.name}}e</span>
+                            <img class="activator" src="https://materializecss.com/images/sample-1.jpg">
+                            <span class="card-title activator">{{this.name}}e</span>
                             <a class="btn-floating halfway-fab waves-effect waves-light red"><i class="material-icons">add_shopping_cart</i></a>
                         </div>
-                        <div class="card-content">
-                            <p>{{this.description}}</p>
+                        <div class="card-content activator">
+                            <ul>
+                                {{#each this.highlight}}
+                                    <li class="a">{{this}}</li>
+                                {{/each}}
+                            </ul>
+
                         </div>
                         <div class="card-reveal">
                             <span class="card-title grey-text text-darken-4">Card Title<i class="material-icons right">close</i></span>
-                            <p>Here is some more information about this product that is only revealed once clicked on.</p>
+                            <p>{{this.description}}</p>
                         </div>
                     </div>
                 </div>
@@ -198,16 +221,21 @@ Customer
                 <div class="col s12 m6">
                     <div class="card">
                         <div class="card-image activator">
-                            <img src="https://materializecss.com/images/sample-1.jpg">
-                            <span class="card-title">{{this.name}}e</span>
+                            <img class="activator" src="https://materializecss.com/images/sample-1.jpg">
+                            <span class="card-title activator">{{this.name}}e</span>
                             <a class="btn-floating halfway-fab waves-effect waves-light red"><i class="material-icons">add_shopping_cart</i></a>
                         </div>
-                        <div class="card-content">
-                            <p>{{this.description}}</p>
+                        <div class="card-content activator">
+                            <ul>
+                                {{#each this.highlight}}
+                                    <li class="a">{{this}}</li>
+                                {{/each}}
+                            </ul>
+
                         </div>
                         <div class="card-reveal">
                             <span class="card-title grey-text text-darken-4">Card Title<i class="material-icons right">close</i></span>
-                            <p>Here is some more information about this product that is only revealed once clicked on.</p>
+                            <p>{{this.description}}</p>
                         </div>
                     </div>
                 </div>
@@ -233,16 +261,21 @@ Customer
                 <div class="col s12 m6">
                     <div class="card">
                         <div class="card-image activator">
-                            <img src="https://materializecss.com/images/sample-1.jpg">
-                            <span class="card-title">{{this.name}}e</span>
+                            <img class="activator" src="https://materializecss.com/images/sample-1.jpg">
+                            <span class="card-title activator">{{this.name}}e</span>
                             <a class="btn-floating halfway-fab waves-effect waves-light red"><i class="material-icons">add_shopping_cart</i></a>
                         </div>
-                        <div class="card-content">
-                            <p>{{this.description}}</p>
+                        <div class="card-content activator">
+                            <ul>
+                                {{#each this.highlight}}
+                                    <li class="a">{{this}}</li>
+                                {{/each}}
+                            </ul>
+
                         </div>
                         <div class="card-reveal">
                             <span class="card-title grey-text text-darken-4">Card Title<i class="material-icons right">close</i></span>
-                            <p>Here is some more information about this product that is only revealed once clicked on.</p>
+                            <p>{{this.description}}</p>
                         </div>
                     </div>
                 </div>
@@ -268,16 +301,21 @@ Customer
                 <div class="col s12 m6">
                     <div class="card">
                         <div class="card-image activator">
-                            <img src="https://materializecss.com/images/sample-1.jpg">
-                            <span class="card-title">{{this.name}}e</span>
+                            <img class="activator" src="https://materializecss.com/images/sample-1.jpg">
+                            <span class="card-title activator">{{this.name}}e</span>
                             <a class="btn-floating halfway-fab waves-effect waves-light red"><i class="material-icons">add_shopping_cart</i></a>
                         </div>
-                        <div class="card-content">
-                            <p>{{this.description}}</p>
+                        <div class="card-content activator">
+                            <ul>
+                                {{#each this.highlight}}
+                                    <li class="a">{{this}}</li>
+                                {{/each}}
+                            </ul>
+
                         </div>
                         <div class="card-reveal">
                             <span class="card-title grey-text text-darken-4">Card Title<i class="material-icons right">close</i></span>
-                            <p>Here is some more information about this product that is only revealed once clicked on.</p>
+                            <p>{{this.description}}</p>
                         </div>
                     </div>
                 </div>
@@ -303,16 +341,21 @@ Customer
                 <div class="col s12 m6">
                     <div class="card">
                         <div class="card-image activator">
-                            <img src="https://materializecss.com/images/sample-1.jpg">
-                            <span class="card-title">{{this.name}}e</span>
+                            <img class="activator" src="https://materializecss.com/images/sample-1.jpg">
+                            <span class="card-title activator">{{this.name}}e</span>
                             <a class="btn-floating halfway-fab waves-effect waves-light red"><i class="material-icons">add_shopping_cart</i></a>
                         </div>
-                        <div class="card-content">
-                            <p>{{this.description}}</p>
+                        <div class="card-content activator">
+                            <ul>
+                                {{#each this.highlight}}
+                                    <li class="a">{{this}}</li>
+                                {{/each}}
+                            </ul>
+
                         </div>
                         <div class="card-reveal">
                             <span class="card-title grey-text text-darken-4">Card Title<i class="material-icons right">close</i></span>
-                            <p>Here is some more information about this product that is only revealed once clicked on.</p>
+                            <p>{{this.description}}</p>
                         </div>
                     </div>
                 </div>
@@ -338,16 +381,21 @@ Customer
                 <div class="col s12 m6">
                     <div class="card">
                         <div class="card-image activator">
-                            <img src="https://materializecss.com/images/sample-1.jpg">
-                            <span class="card-title">{{this.name}}e</span>
+                            <img class="activator" src="https://materializecss.com/images/sample-1.jpg">
+                            <span class="card-title activator">{{this.name}}e</span>
                             <a class="btn-floating halfway-fab waves-effect waves-light red"><i class="material-icons">add_shopping_cart</i></a>
                         </div>
-                        <div class="card-content">
-                            <p>{{this.description}}</p>
+                        <div class="card-content activator">
+                            <ul>
+                                {{#each this.highlight}}
+                                    <li class="a">{{this}}</li>
+                                {{/each}}
+                            </ul>
+
                         </div>
                         <div class="card-reveal">
                             <span class="card-title grey-text text-darken-4">Card Title<i class="material-icons right">close</i></span>
-                            <p>Here is some more information about this product that is only revealed once clicked on.</p>
+                            <p>{{this.description}}</p>
                         </div>
                     </div>
                 </div>
@@ -365,7 +413,7 @@ Customer
 
     </div>
 
-
+    </div>
 
 
 

@@ -17,3 +17,8 @@ body {
 .image-field{
   cursor: pointer;
 }
+
+
+.a {
+  list-style-type: circle !important;
+}

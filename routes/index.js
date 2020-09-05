@@ -25,7 +25,7 @@ router.get('/',authenticationMiddleware (), function(req, res, next) {
             // console.log(results)
             if (namese[0].type == 'seller') {
 
-                db.query("SELECT name,image,description,quantity,category,highlight FROM products WHERE seller_id=(?)  ", [profileid], function (error, results, fields) {
+                db.query("SELECT id, name,image,description,quantity,category,highlight FROM products WHERE seller_id=(?)  ", [profileid], function (error, results, fields) {
                     if (error) {
                         console.log(error, 'dbquery');
                     }
@@ -42,6 +42,9 @@ router.get('/',authenticationMiddleware (), function(req, res, next) {
                     if (error) {
                         console.log(error, 'dbquery');
                     }
+
+                    results.forEach(result=>result.highlight=JSON.parse(result.highlight))
+
                     let sortedItems= {
                          electronics : results.filter(row => row.category == 'electronics'),
                          men : results.filter(row => row.category == 'men-f'),
@@ -53,7 +56,7 @@ router.get('/',authenticationMiddleware (), function(req, res, next) {
                          computers : results.filter(row => row.category == 'computers'),
                          books : results.filter(row => row.category == 'books'),
                     }
-                    console.log(sortedItems)
+                    console.log(sortedItems.books[0].highlight[0])
                     res.render('home-customer', {data: {items:sortedItems, name: namese[0].name}});
                 })
             }
@@ -154,7 +157,23 @@ router.get('/login',checkNotAuthenticated(), function(req, res, next) {
   res.render('login', { title: 'login' });
 });
 
+router.post('/update/:id',authenticationMiddleware(),checkSeller(),function(req,res,next){
 
+    quantity=req.body.quantity
+    prodid=req.params.id
+    const db=require('../db.js')
+
+
+    db.query("UPDATE products SET quantity = (?) where id = (?)",[quantity,prodid], function (error, followcheck, fields) {
+        if (error) {
+            console.log(error, 'dbquery');
+        }
+
+        res.redirect('/')
+    })
+
+
+})
 
 
 router.get('/user/:name',authenticationMiddleware (), function(req, res, next) {
