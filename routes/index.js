@@ -148,6 +148,47 @@ router.post('/update/:id',authenticationMiddleware(),checkSeller(),function(req,
 })
 
 
+
+
+router.post('/updateprod/:id',authenticationMiddleware (), function(req, res, next) {
+
+
+    console.log(req.body)
+
+    productid=req.params.id
+    product=req.body.productname
+    image= req.body.image
+    description=req.body.description
+    quantity=req.body.quantity
+    category=req.body.category
+    highlight=JSON.stringify(req.body.highlight.split(';'))
+    // highlight=JSON.stringify(highlight.split(';')))
+
+    sellerid=req.session.passport.user.user_id
+
+    // console.log(JSON.parse(highlight)[0])
+
+    const db=require('../db.js')
+
+    db.query("update products set name=(?),image=(?),description=(?),quantity=(?),category=(?),highlight=(?),seller_id=(?) WHERE id=(?)", [product,image,description,quantity,category,highlight,sellerid,productid], function (error, results, fields) {
+        if (error) {
+            console.log(error,'dbquery');
+        }
+        console.log("success")
+    })
+    res.redirect('/')
+
+
+
+
+
+});
+
+
+
+
+
+
 router.get('/cart',authenticationMiddleware (),checkNotSeller(), function(req, res, next) {
     console.log(req.user, req.isAuthenticated())
     profileid = req.session.passport.user.user_id
@@ -253,7 +294,34 @@ router.get('/cart/order',authenticationMiddleware (),checkNotSeller(), function(
 })
 
 
+router.get('/edit/:id',authenticationMiddleware (),checkSeller(), function(req, res, next) {
+    console.log(req.user, req.isAuthenticated())
+    profileid = req.session.passport.user.user_id
 
+    const db = require('../db.js')
+
+    prodId = req.params.id
+
+    db.query("SELECT * FROM products WHERE id=(?)", [prodId], function (error, result, fields) {
+        if (error) {
+            console.log(error, 'dbquery');
+
+        }
+        if(result[0].seller_id==profileid){
+            result[0].highlight=JSON.parse(result[0].highlight).join(';').toString()
+        res.render('edit',{item:result[0]})
+
+                console.log(result[0])
+        }
+        else{
+            res.redirect('/')
+        }
+    })
+
+
+
+
+})
 
 
 
