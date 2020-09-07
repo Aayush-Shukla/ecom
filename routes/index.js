@@ -33,12 +33,12 @@ router.get('/',authenticationMiddleware (), function(req, res, next) {
                     console.log(results,JSON.parse(JSON.stringify(results)))
 
 
-                    res.render('home-seller', {data: {items: results, name: namese[0].name}});
+                    res.render('home-seller', {data: {items: results, name: namese[0].name ,type:false}});
                 })
             }
             else  {
 
-                db.query("SELECT name,image,description,quantity,category,highlight FROM products order by category", function (error, results, fields) {
+                db.query("SELECT id, name,image,description,quantity,category,highlight FROM products order by category", function (error, results, fields) {
                     if (error) {
                         console.log(error, 'dbquery');
                     }
@@ -57,7 +57,7 @@ router.get('/',authenticationMiddleware (), function(req, res, next) {
                          books : results.filter(row => row.category == 'books'),
                     }
                     console.log(sortedItems.books[0].highlight[0])
-                    res.render('home-customer', {data: {items:sortedItems, name: namese[0].name}});
+                    res.render('home-customer', {data: {items:sortedItems, name: namese[0].name ,type:true}});
                 })
             }
 
@@ -92,34 +92,6 @@ router.get('/test',checkSeller(), function(req, res, next) {
   res.render('create');
 });
 
-router.get('/profile',authenticationMiddleware (), function(req, res, next) {
-    authorid=req.session.passport.user.user_id
-
-    const db=require('../db.js')
-    db.query("SELECT * FROM post WHERE author_id =(?) ORDER BY created_at DESC", [authorid], function (error, results, fields) {
-        if (error) {
-            console.log(error, 'dbquery');
-        }
-        db.query("SELECT (Select count(*) from post where author_id=(?))as postno, (SELECT count(*) from followings where user_id=(?))as followers,(SELECT count(*) from followers where user_id=(?))as followings,(select name from users where id=(?))as name", [authorid,authorid,authorid,authorid], function (error, profinfo, fields) {
-            if (error) {
-                console.log(error, 'dbquery');
-            }
-                console.log(results)
-            db.query("SELECT * FROM users WHERE id =(?) ", [authorid], function (error, userdetail, fields) {
-                if (error) {
-                    console.log(error, 'dbquery');
-                }
-                console.log(userdetail[0])
-
-                res.render('profile', {data: {userblogs: results, info: profinfo[0],userinfo: userdetail[0]}})
-            })
-        })
-    })
-
-
-
-
-});
 router.post('/create',authenticationMiddleware (), function(req, res, next) {
 
 
@@ -164,7 +136,7 @@ router.post('/update/:id',authenticationMiddleware(),checkSeller(),function(req,
     const db=require('../db.js')
 
 
-    db.query("UPDATE products SET quantity = (?) where id = (?)",[quantity,prodid], function (error, followcheck, fields) {
+    db.query("UPDATE products SET quantity = (?) where id = (?)",[quantity,prodid], function (error, results, fields) {
         if (error) {
             console.log(error, 'dbquery');
         }
@@ -176,123 +148,162 @@ router.post('/update/:id',authenticationMiddleware(),checkSeller(),function(req,
 })
 
 
-router.get('/user/:name',authenticationMiddleware (), function(req, res, next) {
+router.get('/cart',authenticationMiddleware (),checkNotSeller(), function(req, res, next) {
+    console.log(req.user, req.isAuthenticated())
+    profileid = req.session.passport.user.user_id
+    const db = require('../db.js')
 
-
-    profilevisit=req.params.name
-    currentuser=req.session.passport.user.user_id
-
-    const db=require('../db.js')
-    db.query("SELECT id FROM users WHERE name =(?) ", [profilevisit], function (error, profileid, fields) {
+    db.query("SELECT cart FROM users WHERE id=(?)", [profileid], function (error, result, fields) {
         if (error) {
             console.log(error, 'dbquery');
+
         }
-        // console.log(profileid[0].id)
-        db.query("SELECT (Select count(*) from post where author_id=(?))as postno, (SELECT count(*) from followings where user_id=(?))as followers,(SELECT count(*) from followers where user_id=(?))as followings,(select name from users where id=(?))as name", [profileid[0].id,profileid[0].id,profileid[0].id,profileid[0].id], function (error, profinfo, fields) {
+
+        console.log(result,"===",result[0].cart)
+        if (result[0].cart==undefined){
+            cartParse=[]
+        }
+        else{
+            cartParse=JSON.parse(result[0].cart)
+        }
+
+        console.log(cartParse,typeof cartParse,"-----------")
+
+        db.query("SELECT * FROM  products where id in (?) ", [cartParse], function (error, result, fields) {
+            if (error) {
+                console.log(error, 'dbquery');
+
+            }
+
+            console.log(result)
+            res.render('cart', {items: result})
+        })
+
+    })
+});
+
+router.get('/cart/delete/:id',authenticationMiddleware (),checkNotSeller(), function(req, res, next) {
+    console.log(req.user, req.isAuthenticated())
+    profileid = req.session.passport.user.user_id
+    itemId=req.params.id
+
+    const db = require('../db.js')
+    db.query("SELECT cart FROM users WHERE id=(?)", [profileid], function (error, result, fields) {
+        if (error) {
+            console.log(error, 'dbquery');
+
+        }
+
+
+        cartParse=JSON.parse(result[0].cart)
+        for (var i = 0; i < cartParse.length; i++)
+            if (cartParse[i] == itemId) {
+                cartParse.splice(i, 1);
+
+            }
+
+        cartParse=JSON.stringify(cartParse)
+        db.query("UPDATE users SET cart = (?) where id = (?)",[cartParse,profileid], function (error, results, fields) {
             if (error) {
                 console.log(error, 'dbquery');
             }
-            db.query("SELECT content,created_at FROM post WHERE author_id =(?) ", [profileid[0].id], function (error, results, fields) {
-                if (error) {
-                    console.log(error, 'dbquery');
-                }
 
-                db.query("SELECT * from followers where user_id=(?) and follower_id=(?) ", [currentuser,profileid[0].id], function (error, followcheck, fields) {
-                    if (error) {
-                        console.log(error, 'dbquery');
-                    }
-
-                    console.log(followcheck.length==0,'cndn')
-                    if(profileid[0].id==currentuser)
-                    {
-                        res.redirect('/profile')
-                    }
-                    else{
-                    if (followcheck.length==0){
-                        res.render('profile', {data: {userblogs: results, info: profinfo[0], id: profileid[0].id, alreaedyfollow:false}})
-
-                    }
-                    else {
+            res.redirect('/cart')
+        })
 
 
-                        res.render('profile', {data: {userblogs: results, info: profinfo[0], id: profileid[0].id, alreadyfollow:true}})
-                    }}
-                })
-            })
+        // res.redirect('/cart')
+    })
+
+
+
+})
+
+
+router.get('/cart/order',authenticationMiddleware (),checkNotSeller(), function(req, res, next) {
+    console.log(req.user, req.isAuthenticated())
+    profileid = req.session.passport.user.user_id
+
+    const db = require('../db.js')
+
+    db.query("SELECT cart FROM users WHERE id=(?)", [profileid], function (error, result, fields) {
+        if (error) {
+            console.log(error, 'dbquery');
+
+        }
+        cartParse = JSON.parse(result[0].cart)
+
+        db.query("update products set quantity=quantity-1 where id in (?); update users set cart=NULL where id = (?)", [cartParse,profileid], function (error, result, fields) {
+            if (error) {
+                console.log(error, 'dbquery');
+
+            }
+
+
+            res.redirect('/')
+
+
+        })
+
+    })
+
+
+
+
+})
+
+
+
+
+
+
+
+
+router.get('/add/:id',authenticationMiddleware (),checkNotSeller(), function(req, res, next) {
+    console.log(req.user, req.isAuthenticated())
+    profileid = req.session.passport.user.user_id
+
+    const db = require('../db.js')
+
+    prodId=req.params.id
+    console.log(prodId)
+
+    db.query("SELECT cart FROM users WHERE id=(?)", [profileid], function (error, result, fields) {
+        if (error) {
+            console.log(error, 'dbquery');
+
+                   }
+
+        console.log(result,"===",result[0].cart)
+        if (result[0].cart==undefined){
+            cartParse=[]
+        }
+        else{
+            cartParse=JSON.parse(result[0].cart)
+        }
+        // console.log(cartParse.indexOf(prodId))
+        if(cartParse.indexOf(prodId) == -1) {
+            cartParse.push(prodId)
+        }
+        console.log(cartParse,"-----------")
+        cartParse=JSON.stringify(cartParse)
+        db.query("UPDATE users SET cart =(?) WHERE id=(?) ", [cartParse,profileid], function (error, result, fields) {
+            if (error) {
+                console.log(error, 'dbquery');
+
+
+            }
+
+            res.redirect('/')
+
         })
     })
-
-});
-
-
-
-router.get('/follow/:id',authenticationMiddleware (), function(req, res, next) {
-
-    const db=require('../db.js')
-    userid=req.session.passport.user.user_id
-    tofollow=req.params.id
-    db.query("INSERT INTO followings(following_id,user_id)VALUES (?,?)", [userid,tofollow], function (error, results, fields) {
-        if (error) {
-            console.log(error, 'dbquery');
-        }
-        console.log(results)
-    })
-        db.query("INSERT INTO followers(follower_id,user_id)VALUES(?,?)", [tofollow,userid], function (error, results, fields) {
-        if (error) {
-            console.log(error, 'dbquery');
-        }
-        console.log(results)
-    })
-
-    db.query("SELECT name FROM users WHERE id=(?)", [tofollow], function (error, results, fields) {
-        if (error) {
-            console.log(error, 'dbquery');
-        }
-        var redirect=results[0].name
-        console.log(redirect)
-        res.redirect(`/user/${redirect}`);
-
-    })
-
-
-
-});
+})
 
 
 
 
 
-router.get('/unfollow/:id',authenticationMiddleware (), function(req, res, next) {
-
-    const db=require('../db.js')
-    userid=req.session.passport.user.user_id
-    tofollow=req.params.id
-    db.query("DELETE FROM followings WHERE following_id=(?) AND user_id=(?)", [userid,tofollow], function (error, results, fields) {
-        if (error) {
-            console.log(error, 'dbquery');
-        }
-        console.log(results)
-    })
-    db.query("DELETE FROM followers WHERE follower_id=(?) AND user_id=(?)", [tofollow,userid], function (error, results, fields) {
-        if (error) {
-            console.log(error, 'dbquery');
-        }
-        console.log(results,'del')
-    })
-
-    db.query("SELECT name FROM users WHERE id=(?)", [tofollow], function (error, results, fields) {
-        if (error) {
-            console.log(error, 'dbquery');
-        }
-        var redirect=results[0].name
-        console.log(redirect)
-        res.redirect(`/user/${redirect}`);
-
-    })
-
-
-
-});
 
 
 

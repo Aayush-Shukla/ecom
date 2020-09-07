@@ -22,3 +22,23 @@ body {
 .a {
   list-style-type: circle !important;
 }
+
+
+.order{
+  background-color: white;
+  position: fixed;
+  bottom: 0px;
+  width:100%;
+  margin: 0px !important;
+  z-index: 1;
+}
+.orderbut{
+  position: absolute !important;
+  right:10px;
+  margin-top: 15px;
+
+}
+
+.end{
+  margin: 1in;
+}

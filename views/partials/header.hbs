@@ -29,7 +29,9 @@
                         </form>
                         {{#if isAuthenticated}}
                         <li><a href="/search"><i class="material-icons">search</i> </a></li>
-                        <li><a href="/profile">Profile</a></li>
+                        {{#if data.type}}
+                            <li><a href="/cart" class="material-icons"><i class="material-icons">shopping_cart</i>   </a></li>
+                        {{/if}}
 
                         <li><a href="/logout">Logout</a></li>
 

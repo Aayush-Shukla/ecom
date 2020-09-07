@@ -58,12 +58,14 @@ Customer
 
         {{#each data.items.books}}
 
+
+
                 <div class="col s12 m6">
                     <div class="card">
                         <div class="card-image">
                             <img class="activator" src="https://materializecss.com/images/sample-1.jpg">
-                            <span class="card-title activator">{{this.name}}e</span>
-                            <a class="btn-floating halfway-fab waves-effect waves-light red"><i class="material-icons">add_shopping_cart</i></a>
+                            <span class="card-title activator">{{this.name}}</span>
+                            <a href="add/{{this.id}}" class="btn-floating halfway-fab waves-effect waves-light red" ><i class="material-icons">add_shopping_cart</i></a>
                         </div>
                         <div class="card-content activator">
                             <ul>
@@ -79,7 +81,6 @@ Customer
                         </div>
                     </div>
                 </div>
-
 
 
 
