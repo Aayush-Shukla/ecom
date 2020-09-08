@@ -1,0 +1,70 @@
+{{> header }}
+
+<div class="container "  style="height: 100%;">
+<div class="row">
+    <div class="col12">
+        <h2 class="center ">RECENT CUSTOMERS </h2>
+        <br>
+        <br>
+        <br>
+        <ul class="collapsible">
+
+
+{{#each data}}
+
+    <li>
+<!--        {{@key}}-->
+<!--        <div class="collapsible-header">{{this.pname}} </div>-->
+        <div class="collapsible-header"><h6>{{@key}}  </h6> <h6 class="right grey-text">  {{this.0.email}}</h6></div>
+        <div class="collapsible-body">
+        <ul class="collection">
+
+            {{#each this}}
+
+                <li class="collection-item"><strong>{{this.pname}}</strong> <div class="right">{{this.time}}</div></li>
+
+        {{/each}}
+        </ul>
+
+
+        </div>
+    </li>
+
+
+{{/each}}
+
+
+
+        </ul>
+
+
+
+
+
+
+    </div>
+
+
+
+</div>
+</div>
+
+
+
+
+<script>
+
+
+    document.addEventListener('DOMContentLoaded', function() {
+        var elems = document.querySelectorAll('.collapsible');
+        var instances = M.Collapsible.init(elems, options);
+    });
+
+    // Or with jQuery
+
+    $(document).ready(function(){
+        $('.collapsible').collapsible();
+    });
+</script>
+
+{{> footer-end }}

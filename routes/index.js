@@ -33,7 +33,7 @@ router.get('/',authenticationMiddleware (), function(req, res, next) {
                     console.log(results,JSON.parse(JSON.stringify(results)))
 
 
-                    res.render('home-seller', {data: {items: results, name: namese[0].name ,type:false}});
+                    res.render('home-seller', {data: {items: results, name: namese[0].name ,type:false,seller:true}});
                 })
             }
             else  {
@@ -128,6 +128,49 @@ router.post('/create',authenticationMiddleware (), function(req, res, next) {
 router.get('/login',checkNotAuthenticated(), function(req, res, next) {
   res.render('login', { title: 'login' });
 });
+
+
+
+
+router.get('/recent',authenticationMiddleware(),checkSeller(),function(req,res,next) {
+
+    profileid=req.session.passport.user.user_id
+
+    quantity = req.body.quantity
+    prodid = req.params.id
+    const db = require('../db.js')
+    db.query("SELECT customerId,productId,products.name as pname,users.name,email,time FROM delta.purchase INNER JOIN delta.products ON delta.purchase.productId = delta.products.id INNER JOIN  delta.users ON delta.purchase.customerId= delta.users.id WHERE seller_id=(?) ORDER BY time DESC",[profileid], function (error, results, fields) {
+        if (error) {
+            console.log(error, 'dbquery');
+        }
+        // console.log(results)
+        data={}
+        for(var i=0;i<results.length;i++){
+            if(data.hasOwnProperty(results[i].name)){
+
+                data[results[i].name].push(results[i])
+
+
+            }
+            else {
+                data[results[i].name]=[]
+                data[results[i].name].push(results[i])
+
+            }
+
+
+        }
+        console.log(data)
+        res.render('recent',{data:data})
+
+    })
+})
+
+
+
+
+
+
 
 router.post('/update/:id',authenticationMiddleware(),checkSeller(),function(req,res,next){
 
@@ -279,6 +322,19 @@ router.get('/cart/order',authenticationMiddleware (),checkNotSeller(), function(
                 console.log(error, 'dbquery');
 
             }
+
+            for(var i=0;i<cartParse.length;i++){
+
+                db.query("INSERT INTO purchase (customerId,productId) VALUES ((?),(?))", [profileid,cartParse[i]], function (error, result, fields) {
+                    if (error) {
+                        console.log(error, 'dbquery');
+
+                    }
+                })
+
+            }
+
+
 
 
             res.redirect('/')
