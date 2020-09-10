@@ -3,16 +3,18 @@
 
 
 Seller
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0-rc.1/Chart.bundle.js"></script>
 
 
 
-<div class="card-panel black-text row s12" style="  padding-bottom: 150px;box-shadow: 0px 0px 0px 0px rgba(0,0,0,0); background-image: url(https://img.freepik.com/free-vector/seamless-pattern_1159-5086.jpg?size=626&ext=jpg);">
-    <div class="container">
-        <h1>Hello, <text class="red-text">{{data.name}}</text></h1>
+
+<div class="row">
+    <div class="col12">
+
+
+        <canvas id="myChart" width="600" height="400"></canvas>
 
     </div>
-
-</div>
 
 <div class="container s12 " >
 
@@ -89,6 +91,60 @@ Seller
 {{/each}}
 
 </div>
+
+
+
+    <script>
+        var ctx = document.getElementById("myChart").getContext("2d");
+        canvas=document.getElementById("myChart")
+        canvas.width = innerWidth*0.6
+        // console.log(innerHeight)
+        canvas.height = 300
+
+        var myChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                // labels: ['9','10','11','12'],
+                datasets: [{
+                    label: 'Products Bought',
+                    data:{{{data.chartData}}},
+                    fill: false,
+                    backgroundColor: "#eebcde ",
+                    borderColor: "blue",
+                    borderCapStyle: 'butt',
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                scales: {
+                    xAxes: [{
+                        type: 'time',
+                        time:
+                                {
+                                    unit: 'day',
+                                    displayFormats: { 'day': 'DD MMM' },
+                                    max: "{{data.to}}",
+                                    min: "{{data.from}}"
+                                },
+                        distribution: 'linear'
+                    }],
+
+                    yAxes: [{
+
+                        display: true,
+                        ticks: {
+                            // minimum will be 0, unless there is a lower value.
+                            // OR //
+                            stepSize: 1,
+
+                            beginAtZero: true   // minimum value will be 0.
+                        }
+                    }]
+
+                }
+            }
+        });
+    </script>
 
 
 

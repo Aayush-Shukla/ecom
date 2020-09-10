@@ -1,0 +1,67 @@
+{{> header }}
+
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0-rc.1/Chart.bundle.js"></script>
+<div class="container "  style="height: 100%;">
+    <div class="row">
+        <div class="col12">
+
+
+            <canvas id="myChart" width="600" height="400"></canvas>
+
+    </div>
+</div>
+</div>
+{{{data.chartData }}}
+<script>
+    var ctx = document.getElementById("myChart").getContext("2d");
+
+    var myChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            // labels: ['9','10','11','12'],
+            datasets: [{
+                label: 'Products Bought',
+                data:{{{data.chartData}}},
+                fill: false,
+                backgroundColor: "#eebcde ",
+                borderColor: "blue",
+                borderCapStyle: 'butt',
+                borderWidth: 2
+            }]
+        },
+        options: {
+            scales: {
+                xAxes: [{
+                    type: 'time',
+                    time:
+                            {
+                                unit: 'day',
+                                displayFormats: { 'day': 'DD MMM' },
+                                max: "{{data.to}}",
+                                min: "{{data.from}}"
+                            },
+                    distribution: 'linear'
+                }],
+
+                yAxes: [{
+
+                    display: true,
+                    ticks: {
+                            // minimum will be 0, unless there is a lower value.
+                        // OR //
+                        stepSize: 1,
+
+                        beginAtZero: true   // minimum value will be 0.
+                    }
+                }]
+
+            }
+        }
+    });
+</script>
+
+
+
+{{> footer-end }}

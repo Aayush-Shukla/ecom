@@ -33,7 +33,65 @@ router.get('/',authenticationMiddleware (), function(req, res, next) {
                     console.log(results,JSON.parse(JSON.stringify(results)))
 
 
-                    res.render('home-seller', {data: {items: results, name: namese[0].name ,type:false,seller:true}});
+
+                    db.query("SELECT customerId,productId,products.name as pname,users.name,email,time FROM delta.purchase INNER JOIN delta.products ON delta.purchase.productId = delta.products.id INNER JOIN  delta.users ON delta.purchase.customerId= delta.users.id WHERE seller_id=(?) AND time> date_sub(now(),Interval 1 month) ORDER BY time ASC ;",[profileid], function (error, gdata, fields) {
+                        if (error) {
+                            console.log(error, 'dbquery');
+                        }
+
+                        var now = new Date()
+                        var temp = new Date(now.getTime());
+                        console.log(now)
+                        var before = new Date(temp.setMonth(temp.getMonth() - 1));
+                        now = new Date(now.setDate(now.getDate() + 5));
+                        // console.log(results[0].time,,tt,tt.toLocaleDateString('en-IN'))
+                        console.log(gdata[0].time.toString())
+
+
+                        arr = []
+                        json = {}
+
+                        for (var i = 0; i < gdata.length; i++) {
+                            if (json.hasOwnProperty(gdata[i].time.toLocaleDateString('en-GB'))) {
+                                json[gdata[i].time.toLocaleDateString('en-GB')]++
+                            } else {
+                                json[gdata[i].time.toLocaleDateString('en-GB')] = 1
+
+
+                            }
+
+                        }
+
+                        Object.keys(json).forEach(key => {
+                            // console.log(key, [key]);
+                            arr.push({
+                                x: key,
+                                y: json[key]
+                            })
+
+
+                        });
+
+                        // arr.push(json)
+                        var val = [45, 25, 23, 12, 55, 75]
+                        val = JSON.stringify(val)
+                        var x = {}
+                        x['data'] = arr
+                        console.log(arr)
+
+                        // arr=JSON.stringify(arr)
+                        arr = JSON.stringify(arr)
+                        // date=new Date()
+                        // console.log(date.toLocaleDateString('en-GB'))
+                        console.log(now, before)
+
+                        res.render('home-seller', {data: {items: results, name: namese[0].name ,type:false,seller:true,chartData: arr,from:before.toLocaleDateString('en-IN'),to:now.toLocaleDateString('en-IN')}});
+
+                    })
+
+
+
+
                 })
             }
             else  {
@@ -128,6 +186,74 @@ router.post('/create',authenticationMiddleware (), function(req, res, next) {
 router.get('/login',checkNotAuthenticated(), function(req, res, next) {
   res.render('login', { title: 'login' });
 });
+
+
+router.get('/graph', function(req, res, next) {
+
+
+    profileid=req.session.passport.user.user_id
+
+    quantity = req.body.quantity
+    prodid = req.params.id
+    const db = require('../db.js')
+
+    db.query("SELECT customerId,productId,products.name as pname,users.name,email,time FROM delta.purchase INNER JOIN delta.products ON delta.purchase.productId = delta.products.id INNER JOIN  delta.users ON delta.purchase.customerId= delta.users.id WHERE seller_id=(?) AND time> date_sub(now(),Interval 1 month) ORDER BY time ASC ;",[profileid], function (error, results, fields) {
+        if (error) {
+            console.log(error, 'dbquery');
+        }
+
+        var now=new Date()
+        var temp=new Date(now.getTime());
+        console.log(now)
+        var before = new Date(temp.setMonth(temp.getMonth()-1));
+        now = new Date(now.setDate(now.getDate()+5));
+        // console.log(results[0].time,,tt,tt.toLocaleDateString('en-IN'))
+        console.log(results[0].time.toString())
+
+
+
+        arr=[]
+        json={}
+
+        for(var i=0;i<results.length;i++){
+            if(json.hasOwnProperty(results[i].time.toLocaleDateString('en-GB'))){
+                json[results[i].time.toLocaleDateString('en-GB')]++
+            }
+            else{
+                json[results[i].time.toLocaleDateString('en-GB')]=1
+
+
+            }
+
+        }
+
+        Object.keys(json).forEach(key => {
+            // console.log(key, [key]);
+            arr.push({
+                x: key,
+                y: json[key]
+            })
+
+
+        });
+
+        // arr.push(json)
+        var val = [45, 25, 23, 12, 55, 75]
+        val = JSON.stringify(val)
+        var x={}
+            x['data']=arr
+        console.log(arr)
+
+        // arr=JSON.stringify(arr)
+        arr=JSON.stringify(arr)
+        // date=new Date()
+        // console.log(date.toLocaleDateString('en-GB'))
+        console.log(now,before)
+        res.render('prodinfo', {data:{chartData: arr,from:before.toLocaleDateString('en-IN'),to:now.toLocaleDateString('en-IN')}});
+
+    })
+});
+
 
 
 
