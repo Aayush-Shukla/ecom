@@ -1,12 +1,12 @@
 {{> header }}
 
-<div class="container "  style="height: 100%;">
+<div class="container "  style="height: 100%; margin-top:1in">
 <div class="row">
-    <form class="col s12" method="POST" action="/updateprod/{{item.id}}">
+    <form class="col s12" method="POST" action="/updateprod/{{item.id}}" enctype="multipart/form-data">
         <div class="row">
 
                 <div class="input-field col s6">
-                    <input type="text" name="productname" value={{item.name}}>
+                    <input type="text" name="productname" value="{{item.name}}" required>
                     <label for="productname">Product Name</label>
 
                 </div>
@@ -15,7 +15,7 @@
 
 
                 <div class=" col ">
-                    <label ><i class="material-icons large image-field">add_a_photo</i>  <input type="file" class="image-upload" name="image" />
+                    <label ><img class="right" src="/images/uploads/thumbs/{{item.image}} " style="width:150px;">  <input type="file" class="image-upload" name="image" />
                     </label>
 
                 </div>
@@ -26,7 +26,7 @@
         <div class="row">
             <div class="input-field col s12">
 
-                <textarea id="description" class="materialize-textarea" name="description"  >{{item.description}}</textarea>
+                <textarea id="description" class="materialize-textarea" name="description" required  >{{item.description}}</textarea>
                 <label for="description">Description</label>
 
 
@@ -37,7 +37,7 @@
 
                 <div class="input-field col s6">
 
-                    <input type="number" name="quantity"  value={{item.quantity}}>
+                    <input type="number" name="quantity"  value={{item.quantity}} required>
                     <label for="quantity"> Quantity: </label>
 
                     </div>
@@ -67,13 +67,29 @@
         <div class="row">
             <div class="input-field col s12">
 
-                <input type="text" id="highlight" class="materialize-textarea" name="highlight" placeholder="Separate Highlights using ';'" value="{{item.highlight}}">
+                <input type="text" id="highlight" class="materialize-textarea" name="highlight" placeholder="Separate Highlights using ';'" value="{{item.highlight}}" required>
                 <label for="highlight">Highlights</label>
 
 
             </div>
         </div>
+
+
+
+        <div class="row">
+                <div class="input-field col s6">
+
+                    <input type="number" name="price" value="{{item.price}}" required>
+                    <label for="price"> PRICE: </label>
+
+                </div>
+        </div>
+
+
             <div class="row">
+
+
+
 
                     <div class="col s8">
                         <button class="btn waves-effect waves-light" type="submit" name="action"> Add Item

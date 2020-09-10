@@ -29,7 +29,7 @@ router.get('/',authenticationMiddleware (), function(req, res, next) {
             // console.log(results)
             if (namese[0].type == 'seller') {
 
-                db.query("SELECT id, name,image,description,quantity,category,highlight FROM products WHERE seller_id=(?)  ", [profileid], function (error, results, fields) {
+                db.query("SELECT id, name,image,price,description,quantity,category,highlight FROM products WHERE seller_id=(?)  ", [profileid], function (error, results, fields) {
                     if (error) {
                         console.log(error, 'dbquery');
                     }
@@ -38,7 +38,7 @@ router.get('/',authenticationMiddleware (), function(req, res, next) {
 
 
 
-                    db.query("SELECT customerId,productId,products.name as pname,users.name,email,time FROM delta.purchase INNER JOIN delta.products ON delta.purchase.productId = delta.products.id INNER JOIN  delta.users ON delta.purchase.customerId= delta.users.id WHERE seller_id=(?) AND time> date_sub(now(),Interval 1 month) ORDER BY time ASC ;",[profileid], function (error, gdata, fields) {
+                    db.query("SELECT customerId,productId,products.name as pname,users.name,email,price,time FROM delta.purchase INNER JOIN delta.products ON delta.purchase.productId = delta.products.id INNER JOIN  delta.users ON delta.purchase.customerId= delta.users.id WHERE seller_id=(?) AND time> date_sub(now(),Interval 1 month) ORDER BY time ASC ;",[profileid], function (error, gdata, fields) {
                         if (error) {
                             console.log(error, 'dbquery');
                         }
@@ -49,7 +49,7 @@ router.get('/',authenticationMiddleware (), function(req, res, next) {
                         var before = new Date(temp.setMonth(temp.getMonth() - 1));
                         now = new Date(now.setDate(now.getDate() + 5));
                         // console.log(results[0].time,,tt,tt.toLocaleDateString('en-IN'))
-                        console.log(gdata[0].time.toString())
+                        // console.log(gdata[0].time.toString())
 
 
                         arr = []
@@ -100,7 +100,7 @@ router.get('/',authenticationMiddleware (), function(req, res, next) {
             }
             else  {
 
-                db.query("SELECT id, name,image,description,quantity,category,highlight FROM products order by category", function (error, results, fields) {
+                db.query("SELECT id, name,image,description,price,quantity,category,highlight FROM products where quantity>0 order by category ", function (error, results, fields) {
                     if (error) {
                         console.log(error, 'dbquery');
                     }
@@ -118,7 +118,7 @@ router.get('/',authenticationMiddleware (), function(req, res, next) {
                          computers : results.filter(row => row.category == 'computers'),
                          books : results.filter(row => row.category == 'books'),
                     }
-                    console.log(sortedItems.books[0].highlight[0])
+                    // console.log(sortedItems.books[0].highlight[0])
                     res.render('home-customer', {data: {items:sortedItems, name: namese[0].name ,type:true}});
                 })
             }
@@ -160,11 +160,17 @@ router.post('/create',authenticationMiddleware (),checkSeller(),upload.single('i
     console.log(req.file)
 
     product=req.body.productname
-    image= req.file.filename+'.'+req.file.originalname.split('.')[1]
+    if(typeof req.file!=='undefined') {
+        image = req.file.filename + '.' + req.file.originalname.split('.')[1]
+    }
+    else {
+        image = 'default.png'
+    }
     description=req.body.description
     quantity=req.body.quantity
     category=req.body.category
     highlight=JSON.stringify(req.body.highlight.split(';'))
+    price=req.body.price
     // highlight=JSON.stringify(highlight.split(';')))
 
     sellerid=req.session.passport.user.user_id
@@ -173,39 +179,44 @@ router.post('/create',authenticationMiddleware (),checkSeller(),upload.single('i
 
     const db=require('../db.js')
 
-        db.query("INSERT INTO products(name,image,description,quantity,category,highlight,seller_id)VALUES(?,?,?,?,?,?,?)", [product,image,description,quantity,category,highlight,sellerid], function (error, results, fields) {
+        db.query("INSERT INTO products(name,image,description,quantity,category,highlight,seller_id,price)VALUES(?,?,?,?,?,?,?,?)", [product,image,description,quantity,category,highlight,sellerid,price], function (error, results, fields) {
             if (error) {
                 console.log(error,'dbquery');
             }
             console.log("success")
-            fs.readFile(req.file.path, function (err, data) {
-                var imageName = req.file.originalname+'.'+req.file.originalname.split('.')[1]
-                // If there's an error
-                if(!imageName){
-                    console.log("There was an error")
-                    res.redirect("/");
-                    res.end();
-                } else {
-                    var fullPath = path.join(__dirname ,"..","/public/images/uploads/fullsize/",imageName);
-                    var thumbPath = path.join(__dirname ,"..","/public/images/uploads/thumbs/",imageName)
-                    // write file to uploads/fullsize folder
-                    fs.writeFile(fullPath, data, function (err) {
+
+            if(typeof req.file!=='undefined') {
+                fs.readFile(req.file.path, function (err, data) {
+                    var imageName = req.file.filename + '.' + req.file.originalname.split('.')[1]
+                    // If there's an error
+                    if (!imageName) {
+                        console.log("There was an error")
+                        res.redirect("/");
+                        res.end();
+                    } else {
+                        var fullPath = path.join(__dirname, "..", "/public/images/uploads/fullsize/", imageName);
+                        var thumbPath = path.join(__dirname, "..", "/public/images/uploads/thumbs/", imageName)
+                        // write file to uploads/fullsize folder
+                        fs.writeFile(fullPath, data, function (err) {
 
 
-                        console.log(fullPath)
-                        sharp(fullPath).resize(600, 600)
-                            .jpeg({quality: 50}).toFile(thumbPath);
+                            console.log(fullPath)
+                            sharp(fullPath).resize(400, 400)
+                                .jpeg({quality: 50}).toFile(thumbPath);
 
-                        // res.render('index', { title: 'Image Upload',message:'Image uploaded' })
+                            // res.render('index', { title: 'Image Upload',message:'Image uploaded' })
 
-                        // res.redirect('/');
-
-
-                    });
-                }
-            });
+                            res.redirect('/');
 
 
+                        });
+                    }
+                });
+
+            }
+            else{
+                res.redirect('/')
+            }
 
 
 
@@ -354,14 +365,20 @@ router.post('/update/:id',authenticationMiddleware(),checkSeller(),function(req,
 
 
 
-router.post('/updateprod/:id',authenticationMiddleware (), function(req, res, next) {
+router.post('/updateprod/:id',authenticationMiddleware (),checkSeller(),upload.single('image'), function(req, res, next) {
 
 
-    console.log(req.body)
+
+    console.log(req.file)
 
     productid=req.params.id
     product=req.body.productname
-    image= req.body.image
+    if(typeof req.file!=='undefined') {
+        image = req.file.filename + '.' + req.file.originalname.split('.')[1]
+    }
+    else {
+        image = 'default.png'
+    }
     description=req.body.description
     quantity=req.body.quantity
     category=req.body.category
@@ -379,8 +396,44 @@ router.post('/updateprod/:id',authenticationMiddleware (), function(req, res, ne
             console.log(error,'dbquery');
         }
         console.log("success")
+
+
+        if(typeof req.file!=='undefined') {
+
+
+            console.log("success")
+            fs.readFile(req.file.path, function (err, data) {
+                var imageName = req.file.filename + '.' + req.file.originalname.split('.')[1]
+                // If there's an error
+                if (!imageName) {
+                    console.log("There was an error")
+                    res.redirect("/");
+                    res.end();
+                } else {
+                    var fullPath = path.join(__dirname, "..", "/public/images/uploads/fullsize/", imageName);
+                    var thumbPath = path.join(__dirname, "..", "/public/images/uploads/thumbs/", imageName)
+                    // write file to uploads/fullsize folder
+                    fs.writeFile(fullPath, data, function (err) {
+
+
+                        console.log(fullPath)
+                        sharp(fullPath).resize(400, 400)
+                            .jpeg({quality: 50}).toFile(thumbPath);
+
+                        // res.render('index', { title: 'Image Upload',message:'Image uploaded' })
+
+                        res.redirect('/');
+
+
+                    });
+                }
+            });
+        }
+        else{
+            res.redirect('/')
+        }
     })
-    res.redirect('/')
+    // res.redirect('/')
 
 
 
@@ -692,7 +745,7 @@ router.post('/search',authenticationMiddleware (),checkNotSeller(), function(req
 
     const db=require('../db.js')
 
-    db.query("SELECT * FROM products WHERE name LIKE (?) or description LIKE (?) or highlight LIKE (?)", [search,search,search], function (error, results, fields) {
+    db.query("SELECT * FROM products WHERE (name LIKE (?) or description LIKE (?) or highlight LIKE (?)) AND quantity >0", [search,search,search], function (error, results, fields) {
         if (error) {
             console.log(error,'dbquery');
         }

@@ -8,7 +8,7 @@
 
 
 
-<div class="container">
+<div class="container" style="margin-top: 2em">
     <div class="row">
 
         {{#each data.search_res}}
@@ -16,11 +16,12 @@
             <div class="col s12 m6">
                 <div class="card">
                     <div class="card-image">
-                        <img class="activator" src="https://materializecss.com/images/sample-1.jpg">
-                        <span class="card-title activator">{{this.name}}</span>
+                        <img class="activator" src="/images/uploads/thumbs/{{this.image}}">
+                        <span class="card-title activator teal" style="width: 100%"">{{this.name}}</span>
                         <a href="add/{{this.id}}" class="btn-floating halfway-fab waves-effect waves-light red" ><i class="material-icons">add_shopping_cart</i></a>
                     </div>
                     <div class="card-content activator">
+                        <h3>RS. {{this.price}}</h3><p class="right grey-text"> CATEGORY:  {{this.category}}</p>
                         <ul>
                             {{#each this.highlight}}
                                 <li class="a">{{this}}</li>
@@ -37,6 +38,11 @@
 
 
 
+            {{#if (isDivisor 2 (sum @index 1))}}
+            </div>
+            <div class="row">
+
+            {{/if}}
         {{/each}}
 
     </div>

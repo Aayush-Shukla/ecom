@@ -50,7 +50,7 @@ Customer
         <li class="tab"><a href="#computers">Computers</a></li>
     </ul>
 
-    <div class="container">
+    <div class="container" style="margin-top: 2em">
 
     <div id="books" class="col s12">
 
@@ -63,26 +63,34 @@ Customer
                 <div class="col s12 m6">
                     <div class="card">
                         <div class="card-image">
-                            <img class="activator" src="https://materializecss.com/images/sample-1.jpg">
-                            <span class="card-title activator">{{this.name}}</span>
+                            <img class="activator" src="/images/uploads/thumbs/{{this.image}}">
+                            <span class="card-title activator teal"style="width: 100%" >{{this.name}}</span>
                             <a href="add/{{this.id}}" class="btn-floating halfway-fab waves-effect waves-light red" ><i class="material-icons">add_shopping_cart</i></a>
                         </div>
-                        <div class="card-content activator">
+                        <div class="card-content activator grey lighten-3">
+                            <h3 class="">Rs. {{this.price}}</h3>
+
                             <ul>
                                 {{#each this.highlight}}
                                     <li class="a">{{this}}</li>
                                 {{/each}}
                             </ul>
+                            <p class="right red-text">{{this.quantity}} LEFT!</p>
 
+                        <p class="red-text activator" style="cursor: pointer">MORE ... </p>
                         </div>
                         <div class="card-reveal">
-                            <span class="card-title grey-text text-darken-4">Card Title<i class="material-icons right">close</i></span>
+                            <span class="card-title blue-text text-darken-4">Description <i class="material-icons right">close</i></span>
                             <p>{{this.description}}</p>
                         </div>
                     </div>
                 </div>
 
+            {{#if (isDivisor 2 (sum @index 1))}}
+            </div>
+                <div class="row">
 
+            {{/if}}
 
 
 
@@ -99,31 +107,38 @@ Customer
 
         {{#each data.items.electronics}}
 
-                <div class="col s12 m6">
-                    <div class="card">
-                        <div class="card-image">
-                            <img class="activator" src="https://materializecss.com/images/sample-1.jpg">
-                            <span class="card-title activator">{{this.name}}e</span>
-                            <a class="btn-floating halfway-fab waves-effect waves-light red"><i class="material-icons">add_shopping_cart</i></a>
-                        </div>
-                        <div class="card-content activator">
-                            <ul>
-                                {{#each this.highlight}}
-                                    <li class="a">{{this}}</li>
-                                {{/each}}
-                            </ul>
 
-                        </div>
-                        <div class="card-reveal">
-                            <span class="card-title grey-text text-darken-4">Card Title<i class="material-icons right">close</i></span>
-                            <p>{{this.description}}</p>
-                        </div>
+            <div class="col s12 m6">
+                <div class="card">
+                    <div class="card-image">
+                        <img class="activator" src="/images/uploads/thumbs/{{this.image}}">
+                        <span class="card-title activator teal"style="width: 100%" >{{this.name}}</span>
+                        <a href="add/{{this.id}}" class="btn-floating halfway-fab waves-effect waves-light red" ><i class="material-icons">add_shopping_cart</i></a>
+                    </div>
+                    <div class="card-content activator grey lighten-3">
+                        <h3 class="">Rs. {{this.price}}</h3>
+
+                        <ul>
+                            {{#each this.highlight}}
+                                <li class="a">{{this}}</li>
+                            {{/each}}
+                        </ul>
+                        <p class="right red-text">{{this.quantity}} LEFT!</p>
+
+                        <p class="red-text activator" style="cursor: pointer">MORE ... </p>
+                    </div>
+                    <div class="card-reveal">
+                        <span class="card-title blue-text text-darken-4">Description <i class="material-icons right">close</i></span>
+                        <p>{{this.description}}</p>
                     </div>
                 </div>
+            </div>
 
+            {{#if (isDivisor 2 (sum @index 1))}}
+            </div>
+            <div class="row">
 
-
-
+            {{/if}}
 
 
 
@@ -139,32 +154,38 @@ Customer
 
         {{#each data.items.men}}
 
-                <div class="col s12 m6">
-                    <div class="card">
-                        <div class="card-image activator">
-                            <img class="activator" src="https://materializecss.com/images/sample-1.jpg">
-                            <span class="card-title activator">{{this.name}}e</span>
-                            <a class="btn-floating halfway-fab waves-effect waves-light red"><i class="material-icons">add_shopping_cart</i></a>
-                        </div>
-                        <div class="card-content activator">
-                            <ul>
-                                {{#each this.highlight}}
-                                    <li class="a">{{this}}</li>
-                                {{/each}}
-                            </ul>
 
-                        </div>
-                        <div class="card-reveal">
-                            <span class="card-title grey-text text-darken-4">Card Title<i class="material-icons right">close</i></span>
-                            <p>{{this.description}}</p>
-                        </div>
+            <div class="col s12 m6">
+                <div class="card">
+                    <div class="card-image">
+                        <img class="activator" src="/images/uploads/thumbs/{{this.image}}">
+                        <span class="card-title activator teal"style="width: 100%" >{{this.name}}</span>
+                        <a href="add/{{this.id}}" class="btn-floating halfway-fab waves-effect waves-light red" ><i class="material-icons">add_shopping_cart</i></a>
+                    </div>
+                    <div class="card-content activator grey lighten-3">
+                        <h3 class="">Rs. {{this.price}}</h3>
+
+                        <ul>
+                            {{#each this.highlight}}
+                                <li class="a">{{this}}</li>
+                            {{/each}}
+                        </ul>
+                        <p class="right red-text">{{this.quantity}} LEFT!</p>
+
+                        <p class="red-text activator" style="cursor: pointer">MORE ... </p>
+                    </div>
+                    <div class="card-reveal">
+                        <span class="card-title blue-text text-darken-4">Description <i class="material-icons right">close</i></span>
+                        <p>{{this.description}}</p>
                     </div>
                 </div>
+            </div>
 
+            {{#if (isDivisor 2 (sum @index 1))}}
+            </div>
+            <div class="row">
 
-
-
-
+            {{/if}}
 
 
 
@@ -179,32 +200,38 @@ Customer
 
         {{#each data.items.women}}
 
-                <div class="col s12 m6">
-                    <div class="card">
-                        <div class="card-image activator">
-                            <img class="activator" src="https://materializecss.com/images/sample-1.jpg">
-                            <span class="card-title activator">{{this.name}}e</span>
-                            <a class="btn-floating halfway-fab waves-effect waves-light red"><i class="material-icons">add_shopping_cart</i></a>
-                        </div>
-                        <div class="card-content activator">
-                            <ul>
-                                {{#each this.highlight}}
-                                    <li class="a">{{this}}</li>
-                                {{/each}}
-                            </ul>
 
-                        </div>
-                        <div class="card-reveal">
-                            <span class="card-title grey-text text-darken-4">Card Title<i class="material-icons right">close</i></span>
-                            <p>{{this.description}}</p>
-                        </div>
+            <div class="col s12 m6">
+                <div class="card">
+                    <div class="card-image">
+                        <img class="activator" src="/images/uploads/thumbs/{{this.image}}">
+                        <span class="card-title activator teal"style="width: 100%" >{{this.name}}</span>
+                        <a href="add/{{this.id}}" class="btn-floating halfway-fab waves-effect waves-light red" ><i class="material-icons">add_shopping_cart</i></a>
+                    </div>
+                    <div class="card-content activator grey lighten-3">
+                        <h3 class="">Rs. {{this.price}}</h3>
+
+                        <ul>
+                            {{#each this.highlight}}
+                                <li class="a">{{this}}</li>
+                            {{/each}}
+                        </ul>
+                        <p class="right red-text">{{this.quantity}} LEFT!</p>
+
+                        <p class="red-text activator" style="cursor: pointer">MORE ... </p>
+                    </div>
+                    <div class="card-reveal">
+                        <span class="card-title blue-text text-darken-4">Description <i class="material-icons right">close</i></span>
+                        <p>{{this.description}}</p>
                     </div>
                 </div>
+            </div>
 
+            {{#if (isDivisor 2 (sum @index 1))}}
+            </div>
+            <div class="row">
 
-
-
-
+            {{/if}}
 
 
 
@@ -219,31 +246,38 @@ Customer
 
         {{#each data.items.movies}}
 
-                <div class="col s12 m6">
-                    <div class="card">
-                        <div class="card-image activator">
-                            <img class="activator" src="https://materializecss.com/images/sample-1.jpg">
-                            <span class="card-title activator">{{this.name}}e</span>
-                            <a class="btn-floating halfway-fab waves-effect waves-light red"><i class="material-icons">add_shopping_cart</i></a>
-                        </div>
-                        <div class="card-content activator">
-                            <ul>
-                                {{#each this.highlight}}
-                                    <li class="a">{{this}}</li>
-                                {{/each}}
-                            </ul>
 
-                        </div>
-                        <div class="card-reveal">
-                            <span class="card-title grey-text text-darken-4">Card Title<i class="material-icons right">close</i></span>
-                            <p>{{this.description}}</p>
-                        </div>
+            <div class="col s12 m6">
+                <div class="card">
+                    <div class="card-image">
+                        <img class="activator" src="/images/uploads/thumbs/{{this.image}}">
+                        <span class="card-title activator teal"style="width: 100%" >{{this.name}}</span>
+                        <a href="add/{{this.id}}" class="btn-floating halfway-fab waves-effect waves-light red" ><i class="material-icons">add_shopping_cart</i></a>
+                    </div>
+                    <div class="card-content activator grey lighten-3">
+                        <h3 class="">Rs. {{this.price}}</h3>
+
+                        <ul>
+                            {{#each this.highlight}}
+                                <li class="a">{{this}}</li>
+                            {{/each}}
+                        </ul>
+                        <p class="right red-text">{{this.quantity}} LEFT!</p>
+
+                        <p class="red-text activator" style="cursor: pointer">MORE ... </p>
+                    </div>
+                    <div class="card-reveal">
+                        <span class="card-title blue-text text-darken-4">Description <i class="material-icons right">close</i></span>
+                        <p>{{this.description}}</p>
                     </div>
                 </div>
+            </div>
 
+            {{#if (isDivisor 2 (sum @index 1))}}
+            </div>
+            <div class="row">
 
-
-
+            {{/if}}
 
 
 
@@ -259,32 +293,38 @@ Customer
 
         {{#each data.items.software}}
 
-                <div class="col s12 m6">
-                    <div class="card">
-                        <div class="card-image activator">
-                            <img class="activator" src="https://materializecss.com/images/sample-1.jpg">
-                            <span class="card-title activator">{{this.name}}e</span>
-                            <a class="btn-floating halfway-fab waves-effect waves-light red"><i class="material-icons">add_shopping_cart</i></a>
-                        </div>
-                        <div class="card-content activator">
-                            <ul>
-                                {{#each this.highlight}}
-                                    <li class="a">{{this}}</li>
-                                {{/each}}
-                            </ul>
 
-                        </div>
-                        <div class="card-reveal">
-                            <span class="card-title grey-text text-darken-4">Card Title<i class="material-icons right">close</i></span>
-                            <p>{{this.description}}</p>
-                        </div>
+            <div class="col s12 m6">
+                <div class="card">
+                    <div class="card-image">
+                        <img class="activator" src="/images/uploads/thumbs/{{this.image}}">
+                        <span class="card-title activator teal"style="width: 100%" >{{this.name}}</span>
+                        <a href="add/{{this.id}}" class="btn-floating halfway-fab waves-effect waves-light red" ><i class="material-icons">add_shopping_cart</i></a>
+                    </div>
+                    <div class="card-content activator grey lighten-3">
+                        <h3 class="">Rs. {{this.price}}</h3>
+
+                        <ul>
+                            {{#each this.highlight}}
+                                <li class="a">{{this}}</li>
+                            {{/each}}
+                        </ul>
+                        <p class="right red-text">{{this.quantity}} LEFT!</p>
+
+                        <p class="red-text activator" style="cursor: pointer">MORE ... </p>
+                    </div>
+                    <div class="card-reveal">
+                        <span class="card-title blue-text text-darken-4">Description <i class="material-icons right">close</i></span>
+                        <p>{{this.description}}</p>
                     </div>
                 </div>
+            </div>
 
+            {{#if (isDivisor 2 (sum @index 1))}}
+            </div>
+            <div class="row">
 
-
-
-
+            {{/if}}
 
 
 
@@ -299,32 +339,38 @@ Customer
 
         {{#each data.items.beauty}}
 
-                <div class="col s12 m6">
-                    <div class="card">
-                        <div class="card-image activator">
-                            <img class="activator" src="https://materializecss.com/images/sample-1.jpg">
-                            <span class="card-title activator">{{this.name}}e</span>
-                            <a class="btn-floating halfway-fab waves-effect waves-light red"><i class="material-icons">add_shopping_cart</i></a>
-                        </div>
-                        <div class="card-content activator">
-                            <ul>
-                                {{#each this.highlight}}
-                                    <li class="a">{{this}}</li>
-                                {{/each}}
-                            </ul>
 
-                        </div>
-                        <div class="card-reveal">
-                            <span class="card-title grey-text text-darken-4">Card Title<i class="material-icons right">close</i></span>
-                            <p>{{this.description}}</p>
-                        </div>
+            <div class="col s12 m6">
+                <div class="card">
+                    <div class="card-image">
+                        <img class="activator" src="/images/uploads/thumbs/{{this.image}}">
+                        <span class="card-title activator teal"style="width: 100%" >{{this.name}}</span>
+                        <a href="add/{{this.id}}" class="btn-floating halfway-fab waves-effect waves-light red" ><i class="material-icons">add_shopping_cart</i></a>
+                    </div>
+                    <div class="card-content activator grey lighten-3">
+                        <h3 class="">Rs. {{this.price}}</h3>
+
+                        <ul>
+                            {{#each this.highlight}}
+                                <li class="a">{{this}}</li>
+                            {{/each}}
+                        </ul>
+                        <p class="right red-text">{{this.quantity}} LEFT!</p>
+
+                        <p class="red-text activator" style="cursor: pointer">MORE ... </p>
+                    </div>
+                    <div class="card-reveal">
+                        <span class="card-title blue-text text-darken-4">Description <i class="material-icons right">close</i></span>
+                        <p>{{this.description}}</p>
                     </div>
                 </div>
+            </div>
 
+            {{#if (isDivisor 2 (sum @index 1))}}
+            </div>
+            <div class="row">
 
-
-
-
+            {{/if}}
 
 
 
@@ -339,31 +385,38 @@ Customer
 
         {{#each data.items.games}}
 
-                <div class="col s12 m6">
-                    <div class="card">
-                        <div class="card-image activator">
-                            <img class="activator" src="https://materializecss.com/images/sample-1.jpg">
-                            <span class="card-title activator">{{this.name}}e</span>
-                            <a class="btn-floating halfway-fab waves-effect waves-light red"><i class="material-icons">add_shopping_cart</i></a>
-                        </div>
-                        <div class="card-content activator">
-                            <ul>
-                                {{#each this.highlight}}
-                                    <li class="a">{{this}}</li>
-                                {{/each}}
-                            </ul>
 
-                        </div>
-                        <div class="card-reveal">
-                            <span class="card-title grey-text text-darken-4">Card Title<i class="material-icons right">close</i></span>
-                            <p>{{this.description}}</p>
-                        </div>
+            <div class="col s12 m6">
+                <div class="card">
+                    <div class="card-image">
+                        <img class="activator" src="/images/uploads/thumbs/{{this.image}}">
+                        <span class="card-title activator teal"style="width: 100%" >{{this.name}}</span>
+                        <a href="add/{{this.id}}" class="btn-floating halfway-fab waves-effect waves-light red" ><i class="material-icons">add_shopping_cart</i></a>
+                    </div>
+                    <div class="card-content activator grey lighten-3">
+                        <h3 class="">Rs. {{this.price}}</h3>
+
+                        <ul>
+                            {{#each this.highlight}}
+                                <li class="a">{{this}}</li>
+                            {{/each}}
+                        </ul>
+                        <p class="right red-text">{{this.quantity}} LEFT!</p>
+
+                        <p class="red-text activator" style="cursor: pointer">MORE ... </p>
+                    </div>
+                    <div class="card-reveal">
+                        <span class="card-title blue-text text-darken-4">Description <i class="material-icons right">close</i></span>
+                        <p>{{this.description}}</p>
                     </div>
                 </div>
+            </div>
 
+            {{#if (isDivisor 2 (sum @index 1))}}
+            </div>
+            <div class="row">
 
-
-
+            {{/if}}
 
 
 
@@ -379,32 +432,38 @@ Customer
 
         {{#each data.items.computers}}
 
-                <div class="col s12 m6">
-                    <div class="card">
-                        <div class="card-image activator">
-                            <img class="activator" src="https://materializecss.com/images/sample-1.jpg">
-                            <span class="card-title activator">{{this.name}}e</span>
-                            <a class="btn-floating halfway-fab waves-effect waves-light red"><i class="material-icons">add_shopping_cart</i></a>
-                        </div>
-                        <div class="card-content activator">
-                            <ul>
-                                {{#each this.highlight}}
-                                    <li class="a">{{this}}</li>
-                                {{/each}}
-                            </ul>
 
-                        </div>
-                        <div class="card-reveal">
-                            <span class="card-title grey-text text-darken-4">Card Title<i class="material-icons right">close</i></span>
-                            <p>{{this.description}}</p>
-                        </div>
+            <div class="col s12 m6">
+                <div class="card">
+                    <div class="card-image">
+                        <img class="activator" src="/images/uploads/thumbs/{{this.image}}">
+                        <span class="card-title activator teal"style="width: 100%" >{{this.name}}</span>
+                        <a href="add/{{this.id}}" class="btn-floating halfway-fab waves-effect waves-light red" ><i class="material-icons">add_shopping_cart</i></a>
+                    </div>
+                    <div class="card-content activator grey lighten-3">
+                        <h3 class="">Rs. {{this.price}}</h3>
+
+                        <ul>
+                            {{#each this.highlight}}
+                                <li class="a">{{this}}</li>
+                            {{/each}}
+                        </ul>
+                        <p class="right red-text">{{this.quantity}} LEFT!</p>
+
+                        <p class="red-text activator" style="cursor: pointer">MORE ... </p>
+                    </div>
+                    <div class="card-reveal">
+                        <span class="card-title blue-text text-darken-4">Description <i class="material-icons right">close</i></span>
+                        <p>{{this.description}}</p>
                     </div>
                 </div>
+            </div>
 
+            {{#if (isDivisor 2 (sum @index 1))}}
+            </div>
+            <div class="row">
 
-
-
-
+            {{/if}}
 
 
 
@@ -421,57 +480,6 @@ Customer
 
 
 
-{{#each data.feed}}
-
-
-
-
-
-
-
-
-<div class="row ">
-    <div class="col s12 m10 offset-m1  ">
-        <div class="card " style="min-height: 500px;">
-            <div class="card-content ">
-
-                <table>
-                    <tr class="card-title teal-text medium" >
-                        <td>
-                            <i class="material-icons medium">account_circle</i>
-                        </td>
-                        <td style="padding-bottom: 35px">
-
-                            {{this.name}}
-                        </td>
-                    </tr>
-                </table>
-
-
-
-                <br>
-
-                <div style="min-height: 300px;">
-
-
-                    {{{this.content}}}
-
-
-                </div>
-
-            </div>
-            <div class="card-action">
-                <div class="right-align ">
-                    <small>
-                        {{this.created_at}}
-                    </small>
-
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-{{/each}}
 
 </div>
 
