@@ -1,0 +1,45 @@
+{{> header }}
+
+
+
+
+
+
+
+
+
+<div class="container">
+    <div class="row">
+
+        {{#each data.search_res}}
+
+            <div class="col s12 m6">
+                <div class="card">
+                    <div class="card-image">
+                        <img class="activator" src="https://materializecss.com/images/sample-1.jpg">
+                        <span class="card-title activator">{{this.name}}</span>
+                        <a href="add/{{this.id}}" class="btn-floating halfway-fab waves-effect waves-light red" ><i class="material-icons">add_shopping_cart</i></a>
+                    </div>
+                    <div class="card-content activator">
+                        <ul>
+                            {{#each this.highlight}}
+                                <li class="a">{{this}}</li>
+                            {{/each}}
+                        </ul>
+
+                    </div>
+                    <div class="card-reveal">
+                        <span class="card-title grey-text text-darken-4">Card Title<i class="material-icons right">close</i></span>
+                        <p>{{this.description}}</p>
+                    </div>
+                </div>
+            </div>
+
+
+
+        {{/each}}
+
+    </div>
+</div>
+{{> footer-end }}
+

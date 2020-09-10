@@ -648,7 +648,7 @@ router.post('/register', check('username').not().isEmpty().withMessage('name can
 
 
 
-router.post('/search',authenticationMiddleware (), function(req, res, next) {
+router.post('/search',authenticationMiddleware (),checkNotSeller(), function(req, res, next) {
 
 
 
@@ -657,12 +657,13 @@ router.post('/search',authenticationMiddleware (), function(req, res, next) {
 
     const db=require('../db.js')
 
-    db.query("SELECT name,id FROM users WHERE name LIKE (?)", [search], function (error, results, fields) {
+    db.query("SELECT * FROM products WHERE name LIKE (?) or description LIKE (?) or highlight LIKE (?)", [search,search,search], function (error, results, fields) {
         if (error) {
             console.log(error,'dbquery');
         }
         console.log(results)
-        res.render('search',{search_res:results})
+        results.forEach(result=>result.highlight=JSON.parse(result.highlight))
+        res.render('search',{data:{search_res:results,type:true}})
 
 
     })

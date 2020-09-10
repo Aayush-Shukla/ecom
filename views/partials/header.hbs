@@ -28,8 +28,15 @@
 
                         </form>
                         {{#if isAuthenticated}}
-                        <li><a href="/search"><i class="material-icons">search</i> </a></li>
+                        <li><i class="material-icons">search</i></li>
                         {{#if data.type}}
+                            <li><form method="POST" action="/search" >
+                                <div class="row">
+                                <input type="text" name="search">
+<!--                                <label for="search"><i class="material-icons">search</i> </label>-->
+
+                                </div>
+                            </form></li>
                             <li><a href="/cart" class="material-icons"><i class="material-icons">shopping_cart</i>   </a></li>
                         {{/if}}
 
