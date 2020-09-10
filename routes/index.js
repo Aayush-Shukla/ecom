@@ -1,11 +1,15 @@
 var express = require('express');
 var router = express.Router();
 var passport=require('passport');
+var path = require('path');
+
 
 const { check, validationResult } = require('express-validator');
 var bcrypt=require('bcrypt');
 const saltRounds=10;
-
+var sharp = require('sharp');
+const upload=require('../middleware');
+var fs = require('fs');
 
 
 
@@ -150,13 +154,13 @@ router.get('/test',checkSeller(), function(req, res, next) {
   res.render('create');
 });
 
-router.post('/create',authenticationMiddleware (), function(req, res, next) {
+router.post('/create',authenticationMiddleware (),checkSeller(),upload.single('image'), function(req, res, next) {
 
 
-    console.log(req.body)
+    console.log(req.file)
 
     product=req.body.productname
-    image= req.body.image
+    image= req.file.filename+'.'+req.file.originalname.split('.')[1]
     description=req.body.description
     quantity=req.body.quantity
     category=req.body.category
@@ -174,8 +178,39 @@ router.post('/create',authenticationMiddleware (), function(req, res, next) {
                 console.log(error,'dbquery');
             }
             console.log("success")
+            fs.readFile(req.file.path, function (err, data) {
+                var imageName = req.file.originalname+'.'+req.file.originalname.split('.')[1]
+                // If there's an error
+                if(!imageName){
+                    console.log("There was an error")
+                    res.redirect("/");
+                    res.end();
+                } else {
+                    var fullPath = path.join(__dirname ,"..","/public/images/uploads/fullsize/",imageName);
+                    var thumbPath = path.join(__dirname ,"..","/public/images/uploads/thumbs/",imageName)
+                    // write file to uploads/fullsize folder
+                    fs.writeFile(fullPath, data, function (err) {
+
+
+                        console.log(fullPath)
+                        sharp(fullPath).resize(600, 600)
+                            .jpeg({quality: 50}).toFile(thumbPath);
+
+                        // res.render('index', { title: 'Image Upload',message:'Image uploaded' })
+
+                        // res.redirect('/');
+
+
+                    });
+                }
+            });
+
+
+
+
+
         })
-        res.redirect('/')
+        // res.redirect('/')
 
 
 
