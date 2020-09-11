@@ -10,7 +10,7 @@ exports.recent=function(req,res,next) {
     quantity = req.body.quantity
     prodid = req.params.id
     const db = require('../db.js')
-    db.query("SELECT customerId,productId,products.name as pname,users.name,email,time FROM delta.purchase INNER JOIN delta.products ON delta.purchase.productId = delta.products.id INNER JOIN  delta.users ON delta.purchase.customerId= delta.users.id WHERE seller_id=(?) ORDER BY time DESC",[profileid], function (error, results, fields) {
+    db.query("SELECT customerId,productId,products.name as pname,users.name,email,time FROM purchase INNER JOIN products ON purchase.productId = products.id INNER JOIN users ON purchase.customerId= users.id WHERE seller_id=(?) ORDER BY time DESC",[profileid], function (error, results, fields) {
         if (error) {
             console.log(error, 'dbquery');
         }

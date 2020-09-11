@@ -1,5 +1,7 @@
 var bcrypt=require('bcrypt');
 const saltRounds=10;
+const { check, validationResult } = require('express-validator');
+
 
 exports.logout=function(req, res, next) {
     req.logout();
@@ -8,6 +10,16 @@ exports.logout=function(req, res, next) {
 }
 
 exports.register=function(req, res, next) {
+
+
+    var errors = validationResult(req);
+    console.log(errors.errors[0])
+    if (!errors.isEmpty()) {
+        res.render('register', { title: 'Validation error' ,errors :errors.errors[0].msg});
+
+    } else {
+
+
 
     exist=[]
     console.log(req.body)
@@ -63,6 +75,7 @@ exports.register=function(req, res, next) {
 
 
 
+    }
 
 
 }

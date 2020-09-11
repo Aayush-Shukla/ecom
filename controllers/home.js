@@ -25,7 +25,7 @@ exports.homepage= function(req, res, next) {
 
 
 
-                db.query("SELECT customerId,productId,products.name as pname,users.name,email,price,time FROM delta.purchase INNER JOIN delta.products ON delta.purchase.productId = delta.products.id INNER JOIN  delta.users ON delta.purchase.customerId= delta.users.id WHERE seller_id=(?) AND time> date_sub(now(),Interval 1 month) ORDER BY time ASC ;",[profileid], function (error, gdata, fields) {
+                db.query("SELECT customerId,productId,products.name as pname,users.name,email,price,time FROM purchase INNER JOIN products ON purchase.productId = products.id INNER JOIN users ON purchase.customerId= users.id WHERE seller_id=(?) AND time> date_sub(now(),Interval 1 month) ORDER BY time ASC ;",[profileid], function (error, gdata, fields) {
                     if (error) {
                         console.log(error, 'dbquery');
                     }
@@ -106,7 +106,15 @@ exports.homepage= function(req, res, next) {
                     books : results.filter(row => row.category == 'books'),
                 }
                 // console.log(sortedItems.books[0].highlight[0])
-                res.render('home-customer', {data: {items:sortedItems, name: namese[0].name ,type:true}});
+
+                db.query("SELECT name,time from purchase inner join products on purchase.productId=products.id where customerId=(?) order by time desc limit 6",[profileid], function (error, recentpurchase, fields) {
+                    if (error) {
+                        console.log(error, 'dbquery');
+                    }
+
+
+                    res.render('home-customer', {data: {items: sortedItems, name: namese[0].name, type: true, recentpur:recentpurchase}});
+                })
             })
         }
 

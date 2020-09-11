@@ -473,6 +473,41 @@ Customer
 
     </div>
 
+        <br>
+        <br>
+        <div class="row">
+
+            <ul class="collapsible">
+
+
+
+
+                    <li>
+                        <!--        {{@key}}-->
+                        <!--        <div class="collapsible-header">{{this.pname}} </div>-->
+                        <div class="collapsible-header"><h6>RECENT PURCHASES </h6></div>
+                        <div class="collapsible-body">
+                            <ul class="collection">
+
+                                {{#each data.recentpur}}
+
+                                    <li class="collection-item"><strong>{{this.name}}</strong> <div class="right">{{this.time}}</div></li>
+
+                                {{/each}}
+                            </ul>
+
+
+                        </div>
+                    </li>
+
+
+
+
+        </div>
+
+        </div>
+
+
     </div>
 
 
@@ -487,7 +522,21 @@ Customer
 <script>
     var el = document.querySelector('.tabs');
     var instance = M.Tabs.init(el, {});
+
+
+
+    document.addEventListener('DOMContentLoaded', function() {
+        var elems = document.querySelectorAll('.collapsible');
+        var instances = M.Collapsible.init(elems, options);
+    });
+
+    // Or with jQuery
+
+    $(document).ready(function(){
+        $('.collapsible').collapsible();
+    });
 </script>
+
 
 {{> footer-end }}
 
