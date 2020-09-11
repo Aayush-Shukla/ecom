@@ -13,7 +13,7 @@ var MySQLStore=require('express-mysql-session')(session);
 var bcrypt=require('bcrypt');
 
 var index = require('./routes/index');
-var users = require('./routes/users');
+
 
 var app = express();
 
@@ -57,7 +57,7 @@ app.use(function(req,res,next){
 })
 
 app.use('/', index);
-app.use('/users', users);
+
 
 passport.use(new LocalStrategy(
     function(username, password, done) {
